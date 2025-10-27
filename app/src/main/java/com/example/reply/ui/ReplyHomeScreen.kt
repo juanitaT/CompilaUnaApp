@@ -94,9 +94,11 @@ fun ReplyHomeScreen(
         )
     )
     if (navigationType == ReplyNavigationType.PERMANENT_NAVIGATION_DRAWER) {
+        val navigationDrawerContentDescription = stringResource(R.string.navigation_drawer)
         PermanentNavigationDrawer(
             drawerContent = {
-                PermanentDrawerSheet(Modifier.width(dimensionResource(R.dimen.drawer_width))) {
+                PermanentDrawerSheet(
+                    modifier = Modifier.testTag(navigationDrawerContentDescription)) {
                     NavigationDrawerContent(
                         selectedDestination = replyUiState.currentMailbox,
                         onTabPressed = onTabPressed,
@@ -162,8 +164,8 @@ private fun ReplyAppContent(
                     currentTab = replyUiState.currentMailbox,
                     onTabPressed = onTabPressed,
                     navigationItemContentList = navigationItemContentList,
-                    modifier = Modifier.testTag(navigationRailContentDescription)
-                )
+                    modifier = Modifier
+                        .testTag(navigationRailContentDescription)               )
             }
             Column(
                 modifier = modifier
@@ -187,10 +189,14 @@ private fun ReplyAppContent(
                     )
                 }
                 AnimatedVisibility(visible = navigationType == ReplyNavigationType.BOTTOM_NAVIGATION) {
+                    val bottomNavigationContentDescription = stringResource(R.string.navigation_bottom)
                     ReplyBottomNavigationBar(
                         currentTab = replyUiState.currentMailbox,
                         onTabPressed = onTabPressed,
-                        navigationItemContentList = navigationItemContentList
+                        navigationItemContentList = navigationItemContentList,
+                                modifier = Modifier
+                                .fillMaxWidth()
+                            .testTag(bottomNavigationContentDescription)
                     )
                 }
             }
@@ -298,6 +304,7 @@ private fun NavigationDrawerHeader(
         )
     }
 }
+
 
 private data class NavigationItemContent(
     val mailboxType: MailboxType,
